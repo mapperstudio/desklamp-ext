@@ -1,0 +1,192 @@
+#desklamp-app {
+  .popup-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1.25rem;
+    z-index: 2147483647;
+    display: flex;
+    align-items: flex-end;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    user-select: none;
+    line-height: 1em;
+  }
+
+  .popup-content {
+    background-color: white;
+    color: #1f2937;
+    border-radius: 0.5rem;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    width: max-content;
+    height: min-content;
+    padding: 0.5rem 1rem;
+    margin: auto 0.5rem 0 0;
+    transition: opacity 300ms;
+  }
+
+  .toggle-button {
+    display: flex;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 1px 2px -1px rgb(0 0 0 / 0.1);
+    border: none;
+    background-color: #288cd7;
+
+    &:hover {
+      background-color: #1e6aa3;
+    }
+  }
+
+  .button-icon {
+    padding: 4px;
+  }
+
+  .opacity-100 {
+    opacity: 1;
+  }
+
+  .opacity-0 {
+    opacity: 0;
+  }
+
+  /* Widget Container */
+  .widget-container {
+    position: fixed;
+    right: 0.5rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Countdown Timer Widget */
+  .countdown-widget {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    transition: box-shadow 0.2s ease;
+    position: relative;
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+      .drag-handle {
+        opacity: 1;
+      }
+
+      .drag-dot {
+        background: #6b7280;
+      }
+    }
+
+    &:active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Dragging state */
+    &.dragging {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      cursor: grabbing;
+    }
+  }
+
+  .countdown-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .countdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-arrows {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .countdown-time {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1;
+  }
+
+  /* Block Button */
+  .block-button {
+    border: 1px solid #ef4444;
+    background: #fee2e2; /* light red */
+    color: #ef4444;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e6a1a150;
+      border: 1px solid #ef4444;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  /* Drag Handle Styles */
+  .drag-handle {
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .drag-dots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    width: 10px;
+  }
+
+  .drag-dot {
+    width: 4px;
+    height: 4px;
+    background: #c1c7cf;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+}
