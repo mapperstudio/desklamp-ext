@@ -111,12 +111,12 @@ export default function BreathingBreak() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between py-2">
+      <div className="flex items-center justify-between pt-4 pb-6">
         <Link
           to="/dashboard"
-          className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
+          className="flex cursor-default items-center gap-2 px-4 py-2 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
         >
           <ArrowLeft className="size-5" />
           <span className="font-medium">Back to Dashboard</span>
@@ -127,7 +127,7 @@ export default function BreathingBreak() {
         <div>
           <Button
             onClick={chooseRandomExercise}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-linear-to-r from-sky-400 to-sky-600 text-white font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+            className=" flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-400 to-blue-600 text-white font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
           >
             Help me choose
           </Button>
@@ -142,7 +142,7 @@ export default function BreathingBreak() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {breathingExercises.map(exercise => (
                 <div key={exercise.id} className="group block">
-                  <div className="bg-white/40 backdrop-blur-sm rounded-xl border border-white/30 p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="backdrop-blur-sm rounded-xl border border-white/40 bg-white/60 p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
                     {/* Exercise Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
@@ -170,7 +170,7 @@ export default function BreathingBreak() {
                             <Link
                               key={duration}
                               to={`/breathing-exercise/${exercise.id}?duration=${duration}`}
-                              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${'bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-lg'}`}
+                              className={`px-4 py-2 cursor-default rounded-xl text-sm font-medium transition-all duration-200 border border-gray-200 ${'bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-lg'}`}
                             >
                               {formatDuration(duration)}
                             </Link>

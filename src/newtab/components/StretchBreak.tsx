@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function StretchBreak() {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-white/40 bg-white/40 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+    <div className="flex flex-col gap-4 rounded-xl border border-white/30 bg-white/50 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
       <div className="flex items-center gap-3">
         <PersonStanding className="text-gray-800 text-3xl" />
         <h2 className="text-gray-900 text-lg font-medium leading-tight">
@@ -23,7 +23,7 @@ export default function StretchBreak() {
 
       <Link
         to="/stretch-break"
-        className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-4 bg-linear-to-r from-gray-400 to-gray-600 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
+        className="flex w-full cursor-default items-center justify-center overflow-hidden rounded-xl h-12 px-4 bg-linear-to-r from-gray-400 to-gray-600 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
       >
         <span className="truncate">Start stretch break</span>
       </Link>

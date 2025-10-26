@@ -25,7 +25,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         block: path.resolve(__dirname, 'src/block/index.html'),
-        content: path.resolve(__dirname, 'src/content/main.tsx'),
+        newtab: path.resolve(__dirname, 'src/newtab/index.html'),
+        options: path.resolve(__dirname, 'src/options/index.html'),
+        welcome: path.resolve(__dirname, 'src/welcome/index.html'),
       },
     },
   },

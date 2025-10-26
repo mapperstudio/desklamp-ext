@@ -11,7 +11,7 @@ export default function Header() {
       </div>
 
       <div className="flex flex-1 justify-end gap-4 md:gap-8 items-center">
-        <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-[#17cfcf] to-[#14b8b8] text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg hover:shadow-2xl transition-all duration-300">
+        <button className="flex min-w-[84px] max-w-[480px]  items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-[#17cfcf] to-[#14b8b8] text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg hover:shadow-2xl transition-all duration-300">
           <span className="truncate">Settings</span>
         </button>
 

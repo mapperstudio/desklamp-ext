@@ -155,7 +155,7 @@ export default function TaskList() {
   const completedTasks = tasks.filter(task => task.completed);
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-white/40 bg-white/20 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+    <div className="flex flex-col gap-4 rounded-xl border border-white/30 bg-white/50 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ export default function TaskList() {
         <div>
           <button
             onClick={() => setIsAddingTask(!isAddingTask)}
-            className="flex items-center gap-2 w-fit p-2 cursor-pointer text-blue-500 font-medium hover:bg-blue-500/10 transition-colors rounded-full"
+            className="flex items-center gap-2 w-fit p-2  text-blue-500 font-medium hover:bg-blue-500/10 transition-colors rounded-full"
           >
             <Plus className="size-4 text-blue-500" />
             <span className="text-blue-500">Add task</span>
@@ -207,7 +207,7 @@ export default function TaskList() {
             <div className="flex items-center gap-2">
               <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                 <DialogTrigger asChild>
-                  <button className="cursor-pointer hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3">
+                  <button className=" hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3">
                     <Calendar className="size-4 text-gray-500" />
                     <div className="flex flex-col items-start">
                       {!(selectedDate || selectedTime) && (
@@ -367,7 +367,7 @@ export default function TaskList() {
               </div>
               <button
                 onClick={() => deleteTask(task.id)}
-                className="cursor-pointer flex items-center justify-center p-1 text-gray-400 hover:text-gray-700 transition-colors opacity-0 group-hover:opacity-100"
+                className=" flex items-center justify-center p-1 text-gray-400 hover:text-gray-700 transition-colors opacity-0 group-hover:opacity-100"
                 title="Delete task"
               >
                 <Trash2 className="size-4" />
@@ -428,7 +428,7 @@ export default function TaskList() {
                   </div>
                   <button
                     onClick={() => deleteTask(task.id)}
-                    className="cursor-pointer flex items-center justify-center p-1 text-gray-400 hover:text-gray-700 transition-colors opacity-0 group-hover:opacity-100"
+                    className=" flex items-center justify-center p-1 text-gray-400 hover:text-gray-700 transition-colors opacity-0 group-hover:opacity-100"
                     title="Delete task"
                   >
                     <Trash2 className="size-4" />

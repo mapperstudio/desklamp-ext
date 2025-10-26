@@ -46,7 +46,7 @@ export default function Hydrate() {
   };
 
   return (
-    <div className="flex flex-col rounded-xl border border-white/40 bg-white/40 backdrop-blur-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden relative">
+    <div className="flex flex-col rounded-xl border border-white/30 bg-white/50 backdrop-blur-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden relative">
       {/* Main content area */}
       <div className="flex flex-col gap-4 p-6 relative z-10">
         <div className="flex items-center gap-3">
@@ -84,13 +84,13 @@ export default function Hydrate() {
         <div className="flex justify-center gap-3 flex-wrap">
           <button
             onClick={() => addWater(0.2)}
-            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-sky-100 to-sky-200 border-sky-400 border text-sky-500 font-bold shadow-lg hover:shadow-2xl transition-all duration-300"
+            className="flex min-w-[84px] max-w-[480px]  items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-sky-100 to-sky-200 border-sky-400 border text-sky-500 font-bold shadow-lg hover:shadow-2xl transition-all duration-300"
           >
             <span className="truncate">+0.2L</span>
           </button>
           <button
             onClick={() => addWater(0.5)}
-            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-sky-100 to-sky-200 border-sky-400 border text-sky-500 font-bold shadow-lg hover:shadow-2xl transition-all duration-300"
+            className="flex min-w-[84px] max-w-[480px]  items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-linear-to-r from-sky-100 to-sky-200 border-sky-400 border text-sky-500 font-bold shadow-lg hover:shadow-2xl transition-all duration-300"
           >
             <span className="truncate">+0.5L</span>
           </button>

@@ -469,7 +469,7 @@ export default function ExercisePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between">
         <Link
@@ -489,14 +489,14 @@ export default function ExercisePage() {
             <div className="max-w-4xl mx-auto">
               {/* Top Section - Achievement */}
               <div className="text-center mb-12">
-                <div className="size-14 mx-auto bg-green-100/50 rounded-full flex items-center justify-center mb-4">
-                  <PersonStanding className="size-8 text-sky-600" />
+                <div className="size-14 mx-auto bg-blue-100/50 rounded-full flex items-center justify-center mb-4">
+                  <PersonStanding className="size-8 text-blue-500" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">
                   You did it!
                 </h2>
                 <p className="text-gray-600 text-xl mb-2">
-                  One {exercise.name} exercise
+                  {exercise.name} exercise
                 </p>
                 <p className="text-gray-500 text-lg">
                   Duration:{' '}
@@ -518,7 +518,7 @@ export default function ExercisePage() {
                       onClick={() => setSelectedFeeling(feeling.value)}
                       className={`flex flex-col items-center gap-3 hover:shadow-lg transition-all duration-200 p-3 rounded-xl ${
                         selectedFeeling === feeling.value
-                          ? 'bg-sky-100 border-2 border-sky-400'
+                          ? 'bg-blue-100 border-2 border-blue-400'
                           : 'hover:bg-white/20'
                       }`}
                     >
@@ -536,7 +536,7 @@ export default function ExercisePage() {
                 <div className="flex gap-4 justify-center">
                   <button
                     onClick={repeatSession}
-                    className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                    className=" flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                   >
                     <RotateCcw className="size-4" />
                     Repeat Session
@@ -544,7 +544,7 @@ export default function ExercisePage() {
 
                   <Link
                     to="/dashboard"
-                    className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                    className=" flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                   >
                     <Home className="size-4" />
                     Back to Dashboard
@@ -655,7 +655,7 @@ export default function ExercisePage() {
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={pauseSession}
-                  className="cursor-pointer flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+                  className=" flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200"
                 >
                   {isPaused ? (
                     <Play className="size-4" />
@@ -666,7 +666,7 @@ export default function ExercisePage() {
                 </button>
                 <button
                   onClick={completeSession}
-                  className="cursor-pointer flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+                  className=" flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200"
                 >
                   <Check className="size-4" />
                   <span>Complete</span>

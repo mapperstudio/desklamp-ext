@@ -159,7 +159,7 @@ export default function SiteBlocker() {
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-white/40 bg-white/40 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300 h-96 max-h-96 overflow-y-auto">
+    <div className="flex flex-col gap-4 rounded-xl border border-white/30 bg-white/50 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300 h-96 max-h-96 overflow-y-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <GlobeLock className="text-gray-800 size-5" />
@@ -170,7 +170,7 @@ export default function SiteBlocker() {
 
         <button
           onClick={() => setIsAddingSite(!isAddingSite)}
-          className="flex items-center gap-2 w-fit p-2 cursor-pointer text-blue-500 font-medium hover:bg-blue-500/10 transition-colors rounded-full"
+          className="flex items-center gap-2 w-fit p-2  text-blue-500 font-medium hover:bg-blue-500/10 transition-colors rounded-full"
         >
           <Plus className="size-4" />
           <span>Add site</span>

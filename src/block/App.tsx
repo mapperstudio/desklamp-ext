@@ -115,7 +115,7 @@ export default function BlockScreen() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex flex-col bg-linear-to-br from-blue-100 via-indigo-100 to-sky-100">
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="max-w-2xl mx-auto text-center">
@@ -156,7 +156,7 @@ export default function BlockScreen() {
                 </h3>
                 <button
                   onClick={() => setShowTimeSelector(false)}
-                  className="cursor-pointer text-gray-400 hover:text-gray-600 hover:shadow-lg transition-all duration-300 p-1 rounded-lg"
+                  className=" text-gray-400 hover:text-gray-600 hover:shadow-lg transition-all duration-300 p-1 rounded-lg"
                 >
                   <X className="size-5" />
                 </button>
@@ -168,7 +168,7 @@ export default function BlockScreen() {
                     <button
                       key={duration}
                       onClick={() => grantAccessHandler(duration)}
-                      className="cursor-pointer flex-1 px-3 py-2 rounded-lg font-medium transition-all bg-white text-gray-700 hover:bg-gray-100 hover:text-black hover:shadow-lg border border-gray-200 whitespace-nowrap text-sm shadow-sm"
+                      className=" flex-1 px-3 py-2 rounded-lg font-medium transition-all bg-white text-gray-700 hover:bg-gray-100 hover:text-black hover:shadow-lg border border-gray-200 whitespace-nowrap text-sm shadow-sm"
                     >
                       {duration} minute{duration !== 1 ? 's' : ''}
                     </button>
@@ -179,7 +179,7 @@ export default function BlockScreen() {
                 <div className="relative">
                   <button
                     onClick={() => setShowCustomDropdown(!showCustomDropdown)}
-                    className="w-full cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg font-medium transition-all bg-white text-gray-700 hover:bg-gray-100 hover:text-black hover:shadow-lg border border-gray-200 text-sm shadow-sm"
+                    className="w-full  flex items-center justify-between px-3 py-2 rounded-lg font-medium transition-all bg-white text-gray-700 hover:bg-gray-100 hover:text-black hover:shadow-lg border border-gray-200 text-sm shadow-sm"
                   >
                     <span>Custom time</span>
                     <ChevronDown
@@ -197,7 +197,7 @@ export default function BlockScreen() {
                             grantAccessHandler(duration);
                             setShowCustomDropdown(false);
                           }}
-                          className="w-full cursor-pointer px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-black transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                          className="w-full  px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-black transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
                         >
                           {duration < 60
                             ? `${duration} minutes`
@@ -280,7 +280,7 @@ export default function BlockScreen() {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={closeTab}
-                className="cursor-pointer flex items-center justify-center gap-3 px-8 py-4 bg-linear-to-r from-gray-400 to-gray-600 text-white font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                className=" flex items-center justify-center gap-3 px-8 py-4 bg-linear-to-r from-gray-400 to-gray-600 text-white font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
               >
                 <X className="size-5" />
                 <span>Close tab</span>
@@ -288,7 +288,7 @@ export default function BlockScreen() {
 
               <button
                 onClick={showTimeSelectorHandler}
-                className="cursor-pointer flex items-center justify-center gap-3 px-8 py-4 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                className=" flex items-center justify-center gap-3 px-8 py-4 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
               >
                 {showTimeSelector ? 'Continue' : 'Let me continue'}
                 <ArrowRight className="size-5" />

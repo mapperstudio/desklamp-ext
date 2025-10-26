@@ -1,5 +1,5 @@
 import React, { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import { checkIfSiteIsBlocked } from './utils/domainChecker';
 import App from './views/App';
 
@@ -21,7 +21,7 @@ console.log('Content script - Starting lightweight checker');
       // App component is already imported
 
       // Mount React app
-      const root = createRoot(container);
+      const root = ReactDOM.createRoot(container);
       root.render(
         React.createElement(StrictMode, null, React.createElement(App))
       );

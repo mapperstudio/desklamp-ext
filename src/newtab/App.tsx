@@ -15,10 +15,10 @@ import ExercisePage from './pages/ExercisePage';
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 font-display">
+      <div className="min-h-screen bg-linear-to-br from-blue-100 via-indigo-100 to-sky-100 font-display">
         <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
           <div className="layout-container flex h-full grow flex-col">
-            <div className="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+            <div className="px-4 md:px-10 lg:px-40 flex flex-1 justify-center items-center">
               <div className="layout-content-container flex flex-col max-w-6xl flex-1">
                 <Routes>
                   <Route

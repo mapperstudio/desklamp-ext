@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Minus, Plus, Target, Play, Square, Pause } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Minus, Plus, Hourglass, Pause, Play, RotateCcw } from 'lucide-react';
 import { useFocusTimer } from '@/hooks/useFocusTimer';
 
-export default function FocusMode() {
+export default function FocusTimer() {
   const [time, setTime] = useState(1500); // 25 minutes in seconds
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -72,18 +67,16 @@ export default function FocusMode() {
   const displayText = isActive ? formattedTime : formatTime(time);
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-white/40 bg-white/40 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300 h-96 max-h-96 overflow-y-auto">
+    <div className="flex flex-col gap-4 rounded-xl border border-white/30 bg-white/50 backdrop-blur-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-300 h-96 max-h-96 overflow-y-auto">
       <div className="flex items-center gap-3">
-        <Target className="text-gray-800 size-5" />
+        <Hourglass className="text-gray-800 size-5" />
         <h2 className="text-gray-900 text-lg font-medium leading-tight">
-          Focus Mode
+          Focus Timer
         </h2>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-4 py-4">
-        <div
-          className={`text-5xl font-medium ${isActive ? 'text-gray-700' : 'text-gray-600'}`}
-        >
+        <div className="text-5xl font-medium bg-linear-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
           {displayText}
         </div>
 
@@ -92,12 +85,12 @@ export default function FocusMode() {
             <div className="flex items-center gap-4">
               <button
                 onClick={decrementTime}
-                className="cursor-pointer flex size-5 items-center justify-center rounded-full bg-gray-400 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
+                className=" flex size-5 items-center justify-center rounded-full bg-transparent border border-blue-400 text-blue-400 font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                <Minus className="text-white size-3" />
+                <Minus className="text-blue-400 size-3" />
               </button>
               <p
-                className="text-gray-500"
+                className="text-gray-400"
                 onClick={() => {
                   // if local development, open the timer settings page
                   if (process.env.NODE_ENV === 'development') {
@@ -109,47 +102,39 @@ export default function FocusMode() {
               </p>
               <button
                 onClick={incrementTime}
-                className="cursor-pointer flex size-5 items-center justify-center rounded-full bg-gray-400 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
+                className=" flex size-5 items-center justify-center rounded-full bg-transparent border border-blue-400 text-blue-400 font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                <Plus className="text-white size-3" />
+                <Plus className="text-blue 400 size-3" />
               </button>
             </div>
           </div>
         )}
 
         {isActive && (
-          <div className="flex items-center gap-4">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={pauseFocusMode}
-                  className="cursor-pointer flex size-8 items-center justify-center rounded-full hover:scale-110 transition-all duration-300"
-                >
-                  {isPaused ? (
-                    <Play className="text-gray-600 size-5" />
-                  ) : (
-                    <Pause className="text-gray-600 size-5" />
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>{isPaused ? 'Resume' : 'Pause'}</p>
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={stopFocusMode}
-                  className="cursor-pointer flex size-8 items-center justify-center rounded-full hover:scale-110 transition-all duration-300"
-                >
-                  <Square className="text-gray-600 size-5" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Stop Focus Mode</p>
-              </TooltipContent>
-            </Tooltip>
+          <div className="flex items-center gap-3 mt-6">
+            <button
+              onClick={pauseFocusMode}
+              className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-medium transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              {isPaused ? (
+                <>
+                  <Play className="size-4" fill="white" />
+                  <span>Resume</span>
+                </>
+              ) : (
+                <>
+                  <Pause className="size-4" fill="white" />
+                  <span>Pause</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={stopFocusMode}
+              className="flex-1 px-4 py-2 rounded-lg bg-white/50 backdrop-blur-sm hover:bg-white/70 text-gray-700 font-medium shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <RotateCcw className="size-4" />
+              <span>Reset</span>
+            </button>
           </div>
         )}
       </div>
@@ -160,20 +145,10 @@ export default function FocusMode() {
             onClick={() => {
               startFocusMode(time);
             }}
-            className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-4 bg-linear-to-r from-gray-400 to-gray-600 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
+            className="flex w-full  items-center justify-center overflow-hidden rounded-xl h-12 px-4 bg-linear-to-r from-blue-400 to-blue-600 text-white font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
           >
             <span className="truncate">Start Focus Session</span>
           </button>
-        )}
-
-        {isActive && (
-          <div className="text-center">
-            <p
-              className={`text-sm ${isPaused ? 'text-gray-400' : 'text-gray-500'}`}
-            >
-              {isPaused ? 'Paused' : 'Keep Focused'}
-            </p>
-          </div>
         )}
       </div>
     </div>

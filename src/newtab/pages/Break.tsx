@@ -52,7 +52,7 @@ export default function Break() {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={handleTakeBreak}
-                className="cursor-pointer px-8 py-3 bg-white/20 flex items-center gap-2 font-medium rounded-xl hover:bg-white/30 transition-colors border border-white/30"
+                className=" px-8 py-3 bg-white/20 flex items-center gap-2 font-medium rounded-xl hover:bg-white/30 transition-colors border border-white/30"
               >
                 <Square className="w-4 h-4 text-white" />
                 <span className="text-white">Take Break</span>

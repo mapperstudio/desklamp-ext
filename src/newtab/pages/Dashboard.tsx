@@ -1,20 +1,29 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import FloatingMenu from '../components/FloatingMenu';
 
 export default function Dashboard() {
   const location = useLocation();
   const isFocusActive = location.pathname === '/dashboard/focus';
   const isBreakActive = location.pathname === '/dashboard/break';
 
+  const handleSettingsClick = () => {
+    // Open options page in a new tab
+    chrome.runtime.openOptionsPage();
+  };
+
   return (
-    <main className="flex-1 p-4 md:p-6 lg:p-10">
-      <div className="w-full">
-        <div className="grid w-fit grid-cols-2 gap-0.5 bg-sky-200/50 backdrop-blur-lg border border-white/40 shadow-lg mx-auto rounded-full mb-6 p-0.5">
+    <main className="w-full">
+      <Outlet />
+
+      {/* Floating Navigation Tabs */}
+      <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-40">
+        <div className="grid w-fit grid-cols-2 gap-0.5 bg-blue-300/50 backdrop-blur-lg border border-white/40 shadow-xl rounded-full p-0.5">
           <Link
             to="/dashboard/focus"
             className={`px-8 py-2 rounded-full font-medium transition-all duration-300 ${
               isFocusActive
-                ? 'bg-white/60 text-gray-900'
-                : 'text-gray-700 hover:bg-white/30'
+                ? 'bg-white/60 text-gray-700 shadow-lg'
+                : 'text-gray-700 hover:bg-white/60'
             }`}
           >
             Focus
@@ -23,16 +32,17 @@ export default function Dashboard() {
             to="/dashboard/break"
             className={`px-8 py-2 rounded-full font-medium transition-all duration-300 ${
               isBreakActive
-                ? 'bg-white/60 text-gray-900'
-                : 'text-gray-700 hover:bg-white/30'
+                ? 'bg-white/60 text-gray-700 shadow-lg'
+                : 'text-gray-700 hover:bg-white/60'
             }`}
           >
             Break
           </Link>
         </div>
-
-        <Outlet />
       </div>
+
+      {/* Floating Menu */}
+      <FloatingMenu onSettingsClick={handleSettingsClick} />
     </main>
   );
 }

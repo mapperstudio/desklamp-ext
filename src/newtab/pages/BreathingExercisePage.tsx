@@ -159,22 +159,22 @@ export default function BreathingExercisePage() {
   // Define phase colors and text
   const phaseConfig = {
     inhale: {
-      color: 'bg-sky-400',
+      color: 'bg-blue-500',
       text: 'Inhale',
       duration: exercise?.phases.inhale || 4,
     },
     hold: {
-      color: 'bg-sky-500',
+      color: 'bg-blue-600',
       text: 'Hold',
       duration: exercise?.phases.hold || 0,
     },
     exhale: {
-      color: 'bg-sky-300',
+      color: 'bg-blue-400',
       text: 'Exhale',
       duration: exercise?.phases.exhale || 4,
     },
     hold2: {
-      color: 'bg-sky-600',
+      color: 'bg-blue-700',
       text: 'Hold',
       duration: exercise?.phases.hold2 || 0,
     },
@@ -401,6 +401,28 @@ export default function BreathingExercisePage() {
     return ((phaseTime + 1) / currentPhaseDuration) * 100;
   };
 
+  // Get scale value based on current phase
+  const getCircleScale = () => {
+    if (!isActive) return 0.3;
+
+    const progress = getProgressPercentage() / 100;
+
+    if (phase === 'inhale') {
+      // Scale from 0.3 to 1.0 during inhale (completely fill outer ring)
+      return 0.3 + progress * 0.7;
+    } else if (phase === 'hold') {
+      // After inhale, stay at full size (1.0)
+      return 1.0;
+    } else if (phase === 'exhale') {
+      // Scale from 1.0 to 0.3 during exhale
+      return 1.0 - progress * 0.7;
+    } else if (phase === 'hold2') {
+      // After exhale, stay at small size (0.3)
+      return 0.3;
+    }
+    return 0.3;
+  };
+
   // Haptic feedback function
   const triggerHaptic = (pattern: number | number[] = 100) => {
     if ('vibrate' in navigator) {
@@ -437,9 +459,9 @@ export default function BreathingExercisePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between  backdrop-blur-lg">
+      <div className="flex items-center justify-between pt-6 backdrop-blur-lg">
         <Link
           to="/breathing-break"
           className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
@@ -464,7 +486,7 @@ export default function BreathingExercisePage() {
                   You did it!
                 </h2>
                 <p className="text-gray-600 text-xl mb-2">
-                  One {exercise.name} exercise
+                  {exercise.name} exercise
                 </p>
                 <p className="text-gray-500 text-lg">
                   Duration:{' '}
@@ -486,7 +508,7 @@ export default function BreathingExercisePage() {
                       onClick={() => setSelectedFeeling(feeling.value)}
                       className={`flex flex-col items-center gap-3 hover:shadow-lg transition-all duration-200 p-3 rounded-xl ${
                         selectedFeeling === feeling.value
-                          ? 'bg-sky-100 border-2 border-sky-400'
+                          ? 'bg-blue-100 border-2 border-blue-400'
                           : 'hover:bg-white/20'
                       }`}
                     >
@@ -504,7 +526,7 @@ export default function BreathingExercisePage() {
                 <div className="flex gap-4 justify-center">
                   <button
                     onClick={repeatSession}
-                    className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                    className=" flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                   >
                     <RotateCcw className="size-4" />
                     Repeat Session
@@ -512,7 +534,7 @@ export default function BreathingExercisePage() {
 
                   <Link
                     to="/dashboard"
-                    className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                    className=" flex items-center gap-2 px-6 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                   >
                     <Home className="size-4" />
                     Back to Dashboard
@@ -538,7 +560,7 @@ export default function BreathingExercisePage() {
                 <div className="relative size-56 mb-6">
                   {/* Outer Ring - Largest - Starts screen-filling and scales down */}
                   <div
-                    className="absolute inset-0 rounded-full bg-sky-200/20 transition-all duration-100 ease-out"
+                    className="absolute inset-0 rounded-full bg-blue-200/20 transition-all duration-100 ease-out"
                     style={{
                       transform: `scale(${8 - transitionProgress * 7})`,
                       opacity: 0.1 + transitionProgress * 0.5,
@@ -547,7 +569,7 @@ export default function BreathingExercisePage() {
 
                   {/* Middle Ring */}
                   <div
-                    className="absolute inset-2 rounded-full bg-sky-200/25 transition-all duration-100 ease-out"
+                    className="absolute inset-2 rounded-full bg-blue-200/25 transition-all duration-100 ease-out"
                     style={{
                       transform: `scale(${6 - transitionProgress * 5})`,
                       opacity: 0.15 + transitionProgress * 0.5,
@@ -556,7 +578,7 @@ export default function BreathingExercisePage() {
 
                   {/* Inner Ring */}
                   <div
-                    className="absolute inset-4 rounded-full bg-sky-200/30 transition-all duration-100 ease-out"
+                    className="absolute inset-4 rounded-full bg-blue-200/30 transition-all duration-100 ease-out"
                     style={{
                       transform: `scale(${4 - transitionProgress * 3})`,
                       opacity: 0.2 + transitionProgress * 0.5,
@@ -565,7 +587,7 @@ export default function BreathingExercisePage() {
 
                   {/* Core Circle */}
                   <div
-                    className="absolute inset-6 rounded-full bg-sky-200/35 transition-all duration-100 ease-out"
+                    className="absolute inset-6 rounded-full bg-blue-200/35 transition-all duration-100 ease-out"
                     style={{
                       transform: `scale(${2.5 - transitionProgress * 1.5})`,
                       opacity: 0.25 + transitionProgress * 0.5,
@@ -596,7 +618,7 @@ export default function BreathingExercisePage() {
               {/* Breathing Steps */}
               <div className="flex flex-col gap-4 max-w-md">
                 <div className="flex items-center gap-4 p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/40">
-                  <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
                     1
                   </div>
                   <div className="flex flex-col">
@@ -612,7 +634,7 @@ export default function BreathingExercisePage() {
 
                 {phaseConfig.hold.duration > 0 && (
                   <div className="flex items-center gap-4 p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/40">
-                    <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
                       2
                     </div>
                     <div className="flex flex-col">
@@ -627,7 +649,7 @@ export default function BreathingExercisePage() {
                 )}
 
                 <div className="flex items-center gap-4 p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/40">
-                  <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {phaseConfig.hold.duration > 0 ? '3' : '2'}
                   </div>
                   <div className="flex flex-col">
@@ -643,7 +665,7 @@ export default function BreathingExercisePage() {
 
                 {phaseConfig.hold2.duration > 0 && (
                   <div className="flex items-center gap-4 p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/40">
-                    <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
                       4
                     </div>
                     <div className="flex flex-col">
@@ -662,7 +684,7 @@ export default function BreathingExercisePage() {
               {/* Start Exercise Button */}
               <button
                 onClick={startSession}
-                className="cursor-pointer flex items-center justify-center gap-3 px-8 py-4 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                className=" flex items-center justify-center gap-3 px-8 py-4 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
               >
                 <Play className="size-5" />
                 <span>Start {formatDuration(exerciseDuration)} Session</span>
@@ -671,96 +693,38 @@ export default function BreathingExercisePage() {
           ) : (
             /* Exercise Mode */
             <div className="flex flex-col items-center justify-center min-h-[80vh] mt-8">
-              {/* Breathing Circle with Multiple Layers */}
-              <div className="flex flex-col items-center justify-center mb-8">
-                <div className="relative size-56 mb-6">
-                  {/* Outer Ring - Largest */}
-                  <div
-                    className={`absolute inset-0 rounded-full transition-all duration-1000 ease-in-out ${
-                      phaseConfig[phase].color
-                    }`}
-                    style={{
-                      transform: isActive
-                        ? `scale(${1 + (getProgressPercentage() / 100) * 0.4})`
-                        : 'scale(1)',
-                      opacity: isActive
-                        ? 0.2 + (getProgressPercentage() / 100) * 0.1
-                        : 0.15,
-                    }}
-                  />
-
-                  {/* Middle Ring */}
-                  <div
-                    className={`absolute inset-2 rounded-full transition-all duration-1000 ease-in-out ${
-                      phaseConfig[phase].color
-                    }`}
-                    style={{
-                      transform: isActive
-                        ? `scale(${1 + (getProgressPercentage() / 100) * 0.3})`
-                        : 'scale(1)',
-                      opacity: isActive
-                        ? 0.4 + (getProgressPercentage() / 100) * 0.2
-                        : 0.3,
-                    }}
-                  />
-
-                  {/* Inner Ring */}
-                  <div
-                    className={`absolute inset-4 rounded-full transition-all duration-1000 ease-in-out ${
-                      phaseConfig[phase].color
-                    }`}
-                    style={{
-                      transform: isActive
-                        ? `scale(${1 + (getProgressPercentage() / 100) * 0.2})`
-                        : 'scale(1)',
-                      opacity: isActive
-                        ? 0.6 + (getProgressPercentage() / 100) * 0.3
-                        : 0.5,
-                    }}
-                  />
-
-                  {/* Core Circle */}
-                  <div
-                    className={`absolute inset-6 rounded-full transition-all duration-1000 ease-in-out ${
-                      phaseConfig[phase].color
-                    }`}
-                    style={{
-                      transform: isActive
-                        ? `scale(${1 + (getProgressPercentage() / 100) * 0.1})`
-                        : 'scale(1)',
-                      opacity: isActive
-                        ? 0.8 + (getProgressPercentage() / 100) * 0.2
-                        : 0.7,
-                    }}
-                  />
-
-                  {/* Text Content */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-white text-2xl font-bold mb-2 drop-shadow-lg">
-                        {phaseConfig[phase].text}
-                      </div>
-                      <div className="text-white/90 text-sm drop-shadow-md">
-                        {isActive
-                          ? `${phaseTime + 1}/${phaseConfig[phase].duration}s`
-                          : 'Ready to start'}
-                      </div>
-                    </div>
-                  </div>
+              {/* Timer */}
+              <div className="text-center mb-16">
+                <div className="text-gray-600 text-lg mb-2">
+                  {exercise.name}
                 </div>
+                <div className="text-4xl font-semibold text-gray-800 mb-2">
+                  {formatTime(timeRemaining)}
+                </div>
+              </div>
 
-                {/* Timer */}
-                <div className="text-center mb-6 mt-8">
-                  <div className="text-4xl font-semibold text-gray-800 mb-2">
-                    {formatTime(timeRemaining)}
+              {/* Breathing Circle with Scaling Inner Circle */}
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative size-56 mb-6">
+                  {/* Outer Ring - Static */}
+                  <div className="absolute inset-0 rounded-full bg-blue-300/50" />
+
+                  {/* Inner Circle - Scales based on phase */}
+                  <div
+                    className="absolute inset-2 rounded-full bg-blue-500 transition-transform duration-1000 ease-in-out"
+                    style={{
+                      transform: `scale(${getCircleScale()})`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-12">
+                <div className="text-center">
+                  <div className="text-base text-blue-500 font-medium drop-shadow-lg">
+                    {phaseConfig[phase].text}
                   </div>
-                  <div className="text-gray-600 text-sm">
-                    {isActive
-                      ? isPaused
-                        ? 'Paused'
-                        : `${exercise.name}`
-                      : 'Ready'}
-                  </div>
+                  {/* <div className="text-2xl drop-shadow-md">{phaseTime + 1}</div> */}
                 </div>
               </div>
 
@@ -768,7 +732,7 @@ export default function BreathingExercisePage() {
               <div className="flex gap-4 w-full max-w-sm">
                 <button
                   onClick={pauseSession}
-                  className="cursor-pointer flex-1 flex items-center justify-center gap-2 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                  className=" flex-1 flex items-center justify-center gap-2 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                 >
                   {isPaused ? (
                     <Play className="size-4" />
@@ -779,7 +743,7 @@ export default function BreathingExercisePage() {
                 </button>
                 <button
                   onClick={completeSession}
-                  className="cursor-pointer flex-1 flex items-center justify-center gap-2 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
+                  className=" flex-1 flex items-center justify-center gap-2 py-3 bg-white text-gray-700 font-medium rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200"
                 >
                   <Check className="size-4" />
                   <span>Complete</span>

@@ -1,5 +1,8 @@
 // Background script for site blocking functionality
 import { FocusModeState } from '../types/focusmode.interface';
+import { ShortcutManager } from './ShortcutManager';
+// Initialize shortcut manager
+const shortcutManager = new ShortcutManager();
 
 export interface BlockedSite {
   id: string;
@@ -38,6 +41,8 @@ const TEMP_UNBLOCK_KEY = 'desklamp_temp_unblocks';
 const FOCUS_MODE_KEY = 'desklamp_focus_mode';
 const HYDRATION_KEY = 'desklamp_hydration';
 const TASKS_KEY = 'desklamp_tasks';
+const NEW_TAB_OVERRIDE_KEY = 'desklamp_new_tab_override';
+const EXTENSION_PINNED_KEY = 'desklamp_extension_pinned';
 
 // Cache for synchronous access
 let blockedSitesCache: BlockedSite[] = [];
@@ -664,7 +669,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.notifications
       .create({
         type: 'basic',
-        iconUrl: chrome.runtime.getURL('public/logo.png'),
+        iconUrl: chrome.runtime.getURL('icon48.png'),
         title: 'Focus Session Complete! 🎉',
         message: 'Great work! Time to take a break and recharge.',
         buttons: [{ title: 'Take a Break' }, { title: 'Start New Session' }],
@@ -677,6 +682,40 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .catch(error => {
         console.error('Failed to create manual notification:', error);
         sendResponse({ success: false, error: error.message });
+      });
+    return true;
+  }
+
+  // Keyboard shortcuts message handler
+  if (message.action === 'getKeyboardShortcuts') {
+    const shortcuts = shortcutManager.getShortcutsForUI();
+    sendResponse({ success: true, shortcuts });
+    return true;
+  }
+
+  // Onboarding message handlers
+  if (message.action === 'getOnboardingStatus') {
+    chrome.storage.local
+      .get(['onboardingCompleted', 'onboardingData'])
+      .then(result => {
+        sendResponse({
+          success: true,
+          completed: result.onboardingCompleted || false,
+          data: result.onboardingData || null,
+        });
+      });
+    return true;
+  }
+
+  if (message.action === 'completeOnboarding') {
+    chrome.storage.local
+      .set({
+        onboardingCompleted: true,
+        onboardingData: message.data,
+        onboardingDate: new Date().toISOString(),
+      })
+      .then(() => {
+        sendResponse({ success: true });
       });
     return true;
   }
@@ -712,87 +751,12 @@ async function broadcastFocusModeStateChange(state: FocusModeState) {
   }
 }
 
-// Helper function to navigate to focus page or create new tab
-async function navigateToFocusPage() {
-  const desklampUrl = chrome.runtime.getURL('src/newtab/index.html');
-  const focusUrl = chrome.runtime.getURL(
-    'src/newtab/index.html#/dashboard/focus'
-  );
-
-  try {
-    // Get all tabs
-    const tabs = await chrome.tabs.query({});
-
-    // Look for existing Desklamp tab
-    const existingTab = tabs.find(
-      tab => tab.url && tab.url.startsWith(desklampUrl)
-    );
-
-    if (existingTab && existingTab.id) {
-      // Navigate existing tab to focus page
-      await chrome.tabs.update(existingTab.id, {
-        url: focusUrl,
-        active: true,
-      });
-    } else {
-      // Create new tab
-      await chrome.tabs.create({
-        url: focusUrl,
-        active: true,
-      });
-    }
-  } catch (error) {
-    console.error('Error navigating to focus page:', error);
-    // Fallback: create new tab
-    await chrome.tabs.create({
-      url: focusUrl,
-      active: true,
-    });
-  }
-}
-
-// Helper function to navigate to break page or create new tab
-async function navigateToBreakPage() {
-  const desklampUrl = chrome.runtime.getURL('src/newtab/index.html');
-  const breakUrl = chrome.runtime.getURL(
-    'src/newtab/index.html#/dashboard/break'
-  );
-
-  try {
-    // Get all tabs
-    const tabs = await chrome.tabs.query({});
-
-    // Look for existing Desklamp tab
-    const existingTab = tabs.find(
-      tab => tab.url && tab.url.startsWith(desklampUrl)
-    );
-
-    if (existingTab && existingTab.id) {
-      // Navigate existing tab to break page
-      await chrome.tabs.update(existingTab.id, {
-        url: breakUrl,
-        active: true,
-      });
-    } else {
-      // Create new tab
-      await chrome.tabs.create({
-        url: breakUrl,
-        active: true,
-      });
-    }
-  } catch (error) {
-    console.error('Error navigating to break page:', error);
-    // Fallback: create new tab
-    await chrome.tabs.create({
-      url: breakUrl,
-      active: true,
-    });
-  }
-}
-
 // Handle extension icon click - open new tab
 chrome.action.onClicked.addListener(_tab => {
-  chrome.tabs.create({});
+  chrome.tabs.create({
+    url: chrome.runtime.getURL('src/newtab/index.html'),
+    active: true,
+  });
 });
 
 // Update Focus Mode badge and state periodically
@@ -837,7 +801,7 @@ setInterval(async () => {
 
         await chrome.notifications.create({
           type: 'basic',
-          iconUrl: chrome.runtime.getURL('public/logo.png'),
+          iconUrl: chrome.runtime.getURL('icon48.png'),
           title: 'Focus Session Complete! 🎉',
           message: 'Great work! Time to take a break and recharge.',
           buttons: [{ title: 'Take a Break' }, { title: 'Start New Session' }],
@@ -863,7 +827,7 @@ setInterval(async () => {
 
 // Handle notification clicks
 chrome.notifications.onClicked.addListener(notificationId => {
-  navigateToBreakPage();
+  shortcutManager.executeShortcut('break-page');
   chrome.notifications.clear(notificationId);
 });
 
@@ -873,10 +837,10 @@ chrome.notifications.onButtonClicked.addListener(
 
     if (buttonIndex === 0) {
       // "Take a Break" button
-      navigateToBreakPage();
+      shortcutManager.executeShortcut('break-page');
     } else if (buttonIndex === 1) {
       // "Start New Session" button
-      navigateToFocusPage();
+      shortcutManager.executeShortcut('focus-page');
     }
   }
 );
@@ -896,7 +860,7 @@ async function testNotification() {
     // Try simple notification first
     await chrome.notifications.create({
       type: 'basic',
-      iconUrl: chrome.runtime.getURL('public/logo.png'),
+      iconUrl: chrome.runtime.getURL('icon48.png'),
       title: 'Test Notification 🧪',
       message: 'This is a test notification to verify the system works.',
     });
@@ -905,7 +869,7 @@ async function testNotification() {
     // Try with icon
     await chrome.notifications.create({
       type: 'basic',
-      iconUrl: chrome.runtime.getURL('public/logo.png'),
+      iconUrl: chrome.runtime.getURL('icon48.png'),
       title: 'Test Notification with Icon 🧪',
       message: 'This notification includes the extension icon.',
       buttons: [{ title: 'Take a Break' }, { title: 'Start New Session' }],
@@ -916,3 +880,48 @@ async function testNotification() {
     console.error('Failed to create test notification:', error);
   }
 }
+
+// Initialize extension on install
+chrome.runtime.onInstalled.addListener(async details => {
+  console.log('DeskLamp extension installed');
+
+  // Check if this is a first install
+  const isFirstInstall = details.reason === 'install';
+
+  if (isFirstInstall) {
+    console.log('First install detected, opening onboarding...');
+
+    // Open onboarding page
+    try {
+      await chrome.tabs.create({
+        url: chrome.runtime.getURL('src/welcome/index.html'),
+        active: true,
+      });
+    } catch (error) {
+      console.error('Error opening onboarding page:', error);
+    }
+  }
+
+  // Initialize new tab override permission to false by default
+  const result = await chrome.storage.local.get(NEW_TAB_OVERRIDE_KEY);
+  if (result[NEW_TAB_OVERRIDE_KEY] === undefined) {
+    await chrome.storage.local.set({ [NEW_TAB_OVERRIDE_KEY]: false });
+    console.log('Initialized new tab override permission to false');
+  }
+
+  // Initialize extension pinned state
+  const pinnedResult = await chrome.storage.local.get(EXTENSION_PINNED_KEY);
+  if (pinnedResult[EXTENSION_PINNED_KEY] === undefined) {
+    await chrome.storage.local.set({ [EXTENSION_PINNED_KEY]: false });
+    console.log('Initialized extension pinned state to false');
+  }
+
+  // Initialize onboarding completion state
+  const onboardingResult = await chrome.storage.local.get(
+    'onboardingCompleted'
+  );
+  if (onboardingResult.onboardingCompleted === undefined) {
+    await chrome.storage.local.set({ onboardingCompleted: false });
+    console.log('Initialized onboarding completion state to false');
+  }
+});
